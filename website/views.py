@@ -75,3 +75,21 @@ def delete(id):
     db.session.commit()
     flash("Blog Post Deleted!",category='success')
     return redirect(url_for('views.manage'))
+
+@views.route('/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def updateBlog(id):
+    blog_post = BlogPost.query.get_or_404(id)
+    if request.method == 'POST':
+        blog_post.title = request.form['title']
+        blog_post.author = request.form['author']
+        blog_post.thumbnail = request.form['thumbnail']
+        blog_post.content_md = request.form['content']
+        blog_post.content_html = markdown2.markdown(blog_post.content_md)
+        blog_post.date_created = datetime.datetime.now()
+
+        db.session.commit()
+        flash("Blog Post Updated!", category='success')
+        return redirect(url_for('views.manage'))
+
+    return render_template("update.html", blog_post=blog_post, user=current_user)
