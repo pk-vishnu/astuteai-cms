@@ -52,3 +52,14 @@ def get_blog(id):
     except Exception as e:
         print(f"Error retrieving blog post: {e}")
         abort(500, description="Internal server error")
+
+@login_required
+@views.route('/manage',methods=['GET'])
+def view():
+    posts = BlogPost.query.all()
+    return render_template("manage.html",user=current_user,posts=posts)
+
+@login_required
+@views.route('view/<int:id>',methods=['GET'])
+def view_post(id):
+    return BlogPost.query.get(id).content_html
