@@ -10,8 +10,9 @@ views = Blueprint('views', __name__)
 def home():
     return render_template("home.html",user = current_user)
 
-@login_required
+
 @views.route('/create',methods=['GET','POST'])
+@login_required
 def blogPost():
     if request.method=='POST':
         title=request.form['title']
@@ -53,19 +54,21 @@ def get_blog(id):
         print(f"Error retrieving blog post: {e}")
         abort(500, description="Internal server error")
 
-@login_required
 @views.route('/manage',methods=['GET'])
+@login_required
 def manage():
     posts = BlogPost.query.all()
     return render_template("manage.html",user=current_user,posts=posts)
 
-@login_required
+
 @views.route('view/<int:id>',methods=['GET'])
+@login_required
 def view_post(id):
     return BlogPost.query.get(id).content_html
 
-@login_required
+
 @views.route('/delete/<int:id>',methods=['GET'])
+@login_required
 def delete(id):
     post = BlogPost.query.get(id)
     db.session.delete(post)
