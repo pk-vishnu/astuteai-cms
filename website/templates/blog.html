@@ -1,97 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog page</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      .content > h1 {
-        display: block;
-        font-size: 2em;
-        margin-top: 0.67em;
-        margin-bottom: 0.67em;
-        margin-left: 0;
-        margin-right: 0;
-        font-weight: bold;
-      }
-      .content > h2 {
-        display: block;
-        font-size: 1.5em;
-        margin-top: 0.83em;
-        margin-bottom: 0.83em;
-        margin-left: 0;
-        margin-right: 0;
-        font-weight: bold;
-      }
-      .content > h3 {
-        display: block;
-        font-size: 1.17em;
-        margin-top: 1em;
-        margin-bottom: 1em;
-        margin-left: 0;
-        margin-right: 0;
-        font-weight: bold;
-      }
-      .content > h4 {
-        display: block;
-        font-size: 1em;
-        margin-top: 1.33em;
-        margin-bottom: 1.33em;
-        margin-left: 0;
-        margin-right: 0;
-        font-weight: bold;
-      }
-      .content > h5 {
-        display: block;
-        font-size: 0.83em;
-        margin-top: 1.67em;
-        margin-bottom: 1.67em;
-        margin-left: 0;
-        margin-right: 0;
-        font-weight: bold;
-      }
-      .content > h6 {
-        display: block;
-        font-size: 0.67em;
-        margin-top: 2.33em;
-        margin-bottom: 2.33em;
-        margin-left: 0;
-        margin-right: 0;
-        font-weight: bold;
-      }
+{% extends "base.html" %} {% block title %}AstuteAI CMS{% endblock %} {% block
+content %}
 
-      .content > p {
-        font-size: large;
-        text-align: justify;
-        letter-spacing: 0.01rem;
-        line-height: 1rem;
-        margin: 0 0 1.15em;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="w-screen h-56 border-b-gray-400/20 border-b-[1px]">
-      <!-- Image -->
-      <img
-        src="http://127.0.0.1:5000/static/img/logo.png"
-        alt="banner"
-        class="object-contain w-full h-full"
-      />
-    </div>
-    <div class="mx-auto w-full md:w-5/6 p-1 mt-2 space-y-4 font-poppins">
-      <!-- Title -->
-      <h1 class="text-3xl font-bold tracking-wide">AstuteAI The Beginning</h1>
-      <p class="font-medium text-slate-600">
-        Published by :
-        <!-- author -->
-        <span class="text-blue-700">team_astute</span>
-      </p>
-      <div class="content">
-        <!-- content -->
-        <h1>Test</h1>
-        <p>This is a test blog posted via CMS</p>
-      </div>
-    </div>
-  </body>
-</html>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  .content > h1 {
+    display: block;
+    font-size: 2em;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+  .content > h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+  .content > h3 {
+    display: block;
+    font-size: 1.17em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+  .content > h4 {
+    display: block;
+    font-size: 1em;
+    margin-top: 1.33em;
+    margin-bottom: 1.33em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+  .content > h5 {
+    display: block;
+    font-size: 0.83em;
+    margin-top: 1.67em;
+    margin-bottom: 1.67em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+  .content > h6 {
+    display: block;
+    font-size: 0.67em;
+    margin-top: 2.33em;
+    margin-bottom: 2.33em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+
+  .content > p {
+    font-size: large;
+    text-align: justify;
+    letter-spacing: 0.01rem;
+    line-height: 1rem;
+    margin: 0 0 1.15em;
+  }
+</style>
+
+<div class="w-5/6 mx-auto h-56 border-b-gray-400/20 border-b-[1px]">
+  <!-- Image -->
+  <img
+    src="{{res['thumbnail']}}"
+    alt="banner"
+    class="object-fill w-full h-full"
+  />
+</div>
+<div class="mx-auto w-full md:w-5/6 p-1 mt-2 space-y-4 font-poppins">
+  <!-- Title -->
+  <h1 class="text-4xl font-bold tracking-wide mt-4">{{res['title']}}</h1>
+  <p class="font-medium text-slate-600">
+    Published by :
+    <!-- author -->
+    <span class="text-blue-700">{{res['author']}}</span>
+    &nbsp;
+    <span class="text-slate-400 text-sm font-thin"
+      >{{res['date_created']}}</span
+    >
+  </p>
+  <div class="content">
+    <!-- content -->
+    {{res['content']}}
+  </div>
+</div>
+
+{% endblock %}

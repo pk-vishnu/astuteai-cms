@@ -64,7 +64,23 @@ def manage():
 @views.route('view/<int:id>',methods=['GET'])
 @login_required
 def view_post(id):
-    return BlogPost.query.get(id).content_html
+    try:
+        blog_post = BlogPost.query.get(id)
+        if not blog_post:
+            abort(404, description="Blog post not found")
+        
+        response = {
+            'id': blog_post.id,
+            'title': blog_post.title,
+            'author': blog_post.author,
+            'thumbnail': blog_post.thumbnail,
+            'content': blog_post.content_html,
+            'date_created': blog_post.date_created
+        }
+        return render_template("blog.html",user=current_user,res=response)
+    except Exception as e:
+        print(f"Error retrieving blog post: {e}")
+        abort(500, description="Internal server error")
 
 
 @views.route('/delete/<int:id>',methods=['GET'])
