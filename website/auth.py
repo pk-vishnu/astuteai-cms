@@ -34,7 +34,7 @@ def sign_up():
         username=request.form.get('username')
         password1=request.form.get('password')
         password2=request.form.get('confirm-password')
-        user = User.query.filter_by(email=email)
+        user = User.query.filter_by(email=email).first()
         if user:
             flash('Email already registered.', category='error')
         elif len(email) < 4:
