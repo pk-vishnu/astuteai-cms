@@ -55,7 +55,7 @@ def get_blog(id):
 
 @login_required
 @views.route('/manage',methods=['GET'])
-def view():
+def manage():
     posts = BlogPost.query.all()
     return render_template("manage.html",user=current_user,posts=posts)
 
@@ -63,3 +63,12 @@ def view():
 @views.route('view/<int:id>',methods=['GET'])
 def view_post(id):
     return BlogPost.query.get(id).content_html
+
+@login_required
+@views.route('/delete/<int:id>',methods=['GET'])
+def delete(id):
+    post = BlogPost.query.get(id)
+    db.session.delete(post)
+    db.session.commit()
+    flash("Blog Post Deleted!",category='success')
+    return redirect(url_for('views.manage'))
