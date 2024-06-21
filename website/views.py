@@ -143,3 +143,16 @@ def get_image(image_uuid):
         mimetype='image/jpeg', 
         as_attachment=False,
     )
+
+@views.route('/asset-manager', methods=['GET'])
+def asset_manager():
+    images = Images.query.all()
+    return render_template('assets.html', images=images, user=current_user)
+
+@views.route('/delete-image/<int:id>', methods=['GET'])
+def delete_image(id):
+    image = Images.query.get(id)
+    db.session.delete(image)
+    db.session.commit()
+    flash("Image deleted!", category='success')
+    return redirect(url_for('views.asset_manager'))
