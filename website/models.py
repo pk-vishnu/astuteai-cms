@@ -16,3 +16,9 @@ class BlogPost(db.Model):
     thumbnail = db.Column(db.String(255))  
     author = db.Column(db.String(50), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
+
+class Images(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    image_data = db.Column(db.LargeBinary, nullable=False)
+    image_name = db.Column(db.String(255), nullable=False)
+    url = db.Column(db.String(255), nullable=False, unique=True)

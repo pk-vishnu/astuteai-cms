@@ -1,9 +1,13 @@
-from flask import Blueprint, render_template,request, flash,redirect,url_for, jsonify, abort
+from flask import Blueprint, render_template,request, flash,redirect,url_for, jsonify, abort, send_file
 from flask_login import login_required, current_user
 import datetime
 import markdown2
 from . import db
 from .models import BlogPost
+from .models import Images
+import uuid
+import io 
+
 views = Blueprint('views', __name__)
 
 @views.route('/')
@@ -109,3 +113,33 @@ def updateBlog(id):
         return redirect(url_for('views.manage'))
 
     return render_template("update.html", blog_post=blog_post, user=current_user)
+
+@views.route('/upload', methods=['POST'])
+def upload_image():
+    if 'image' not in request.files:
+        return jsonify({'error': 'No file part'}), 400
+
+    file = request.files['image']
+
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+
+    if file:
+        filename = file.filename
+        image_data = file.read()
+        image_uuid = str(uuid.uuid4())
+        image_url = url_for('views.get_image', image_uuid=image_uuid, _external=True)
+        new_image = Images(image_name=filename, image_data=image_data, url=image_url)
+        db.session.add(new_image)
+        db.session.commit()
+        return jsonify({'url': image_url}), 201
+
+@views.route('/image/<image_uuid>', methods=['GET'])
+def get_image(image_uuid):
+    image = Images.query.filter_by(url=url_for('views.get_image', image_uuid=image_uuid, _external=True)).first_or_404()
+
+    return send_file(
+        io.BytesIO(image.image_data),
+        mimetype='image/jpeg', 
+        as_attachment=False,
+    )
