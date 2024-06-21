@@ -158,12 +158,15 @@ content %}
       } else if (id == "markdown-editor") {
         cm = simplemde.codemirror;
         start = cm.getCursor("start");
+        end = cm.getCursor("end");
         value = simplemde.value();
         text =
           value
             .split("\n")
             .slice(0, start.line + 1)
-            .join("\n") + `![${file.name}](${data.url})`;
+            .join("\n") +
+          `![${file.name}](${data.url})` +
+          value.split("\n").slice(end.line).join("\n");
         simplemde.value(text);
       }
     }

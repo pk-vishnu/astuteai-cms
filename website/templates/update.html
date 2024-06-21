@@ -93,8 +93,7 @@ content %}
           name="content"
           class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
         >
-
-        {{blog_post.content_md}}
+{{blog_post.content_md}}
         </textarea>
       </div>
       <button
@@ -164,12 +163,15 @@ content %}
       } else if (id == "markdown-editor") {
         cm = simplemde.codemirror;
         start = cm.getCursor("start");
+        end = cm.getCursor("end");
         value = simplemde.value();
         text =
           value
             .split("\n")
             .slice(0, start.line + 1)
-            .join("\n") + `![${file.name}](${data.url})`;
+            .join("\n") +
+          `![${file.name}](${data.url})` +
+          value.split("\n").slice(end.line).join("\n");
         simplemde.value(text);
       }
     }
