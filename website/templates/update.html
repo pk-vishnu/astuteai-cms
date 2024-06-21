@@ -165,13 +165,20 @@ content %}
         start = cm.getCursor("start");
         end = cm.getCursor("end");
         value = simplemde.value();
-        text =
-          value
-            .split("\n")
-            .slice(0, start.line + 1)
-            .join("\n") +
-          `![${file.name}](${data.url})` +
-          value.split("\n").slice(end.line).join("\n");
+        imageUrl = `![${file.name}](${data.url})`;
+        beforeLine = value.split("\n").slice(0, start.line).join("\n");
+        currentLine =
+          value.split("\n")[start.line].slice(0, start.ch) +
+          imageUrl +
+          value.split("\n")[start.line].slice(start.ch) +
+          "\n";
+        console.log(currentLine);
+        afterLine = value
+          .split("\n")
+          .slice(start.line + 1)
+          .join("\n");
+
+        text = beforeLine + currentLine + afterLine;
         simplemde.value(text);
       }
     }
