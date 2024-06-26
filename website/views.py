@@ -14,7 +14,6 @@ views = Blueprint('views', __name__)
 def home():
     return render_template("home.html",user = current_user)
 
-
 @views.route('/create',methods=['GET','POST'])
 @login_required
 def blogPost():
@@ -61,7 +60,7 @@ def get_blog(id):
 @views.route('/manage',methods=['GET'])
 @login_required
 def manage():
-    posts = BlogPost.query.all()
+    posts = BlogPost.query.order_by(BlogPost.id.desc()).all()
     return render_template("manage.html",user=current_user,posts=posts)
 
 
@@ -146,7 +145,7 @@ def get_image(image_uuid):
 
 @views.route('/asset-manager', methods=['GET'])
 def asset_manager():
-    images = Images.query.all()
+    images = Images.query.order_by(Images.id.desc()).all()
     return render_template('assets.html', images=images, user=current_user)
 
 @views.route('/delete-image/<int:id>', methods=['GET'])
