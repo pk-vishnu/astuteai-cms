@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify
 from .models import BlogPost
+from bs4 import BeautifulSoup
 
 api = Blueprint('api', __name__)
 
@@ -34,4 +35,23 @@ def fetch_6_posts():
             'content': post.content_html,
             'date_created': post.date_created
         })  
+    return jsonify(response), 200
+
+@api.route('/fetch_posts_txt',methods=['GET'])
+def fetch_posts_txt():
+    posts = BlogPost.query.order_by(BlogPost.id.desc()).all()
+    response = []
+
+    for post in posts:
+        soup = BeautifulSoup(post.content_html, "html.parser")
+        text = ''.join(soup.findAll(text=True))
+        text = text.replace('\n',' ').replace('\r',' ').replace('\t',' ').replace('  ',' ')
+        response.append({
+            'id': post.id,
+            'title': post.title,
+            'author': post.author,
+            'thumbnail': post.thumbnail,
+            'content': text,
+            'date_created': post.date_created
+        })
     return jsonify(response), 200
