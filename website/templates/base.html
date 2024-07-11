@@ -19,6 +19,23 @@
     </style>
 
     <link rel="icon" href="../static/img/logo.png" type="image/x-icon" />
+    <script>
+      document
+        .getElementById("refreshButton")
+        .addEventListener("click", function () {
+          fetch("http://127.0.0.1:8000/db/refresh_vector_store", {
+            method: "GET",
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Success:", data);
+              alert("Vector store refreshed successfully!");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        });
+    </script>
   </head>
   <body class="min-h-screen flex flex-col">
     <script>
@@ -227,22 +244,5 @@
       </div>
     </footer>
     <!-- End Footer -->
-    <script>
-      document
-        .getElementById("refreshButton")
-        .addEventListener("click", function () {
-          fetch("http://127.0.0.1:8000/db/refresh_vector_store", {
-            method: "GET",
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              console.log("Success:", data);
-              alert("Vector store refreshed successfully!");
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        });
-    </script>
   </body>
 </html>

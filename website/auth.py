@@ -37,6 +37,8 @@ def sign_up():
         user = User.query.filter_by(email=email).first()
         if user:
             flash('Email already registered.', category='error')
+        elif not email.endswith('@astute.ai'):
+            flash('Permission Denied', category='error')
         elif len(email) < 4:
             flash('Email must be greater than 3 characters.', category='error')
         elif len(username) < 2:
